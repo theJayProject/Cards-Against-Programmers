@@ -14,8 +14,10 @@ void Player::draw(sf::RenderTarget &target, sf::RenderStates states) const {
     target.draw(m_shape);
 }
 
-void Player::update() {
+void Player::update(const sf::RenderWindow *window) {
     this->updateInput();
+    this->updateMousePosition(window);
+    this->updateWindowBoundsCollision(window);
 }
 
 
@@ -42,8 +44,35 @@ void Player::updateInput() {
     }
 }
 
-sf::RectangleShape& Player::getPlayerShape() {
-    return m_shape;
+
+void Player::updateWindowBoundsCollision(const sf::RenderTarget *target) {
+    sf::FloatRect playerBounds = m_shape.getGlobalBounds();
+
+
+    if (playerBounds.left < 0.f) {
+        m_shape.setPosition(0, playerBounds.top);
+    } else if (playerBounds.left + playerBounds.width >= target->getSize().x) {
+        m_shape.setPosition(target->getSize().x - playerBounds.width, playerBounds.top);
+    }
+
+    if (playerBounds.top < 0.f) {
+        m_shape.setPosition(playerBounds.left, 0);
+    } else if (playerBounds.top + playerBounds.height > target->getSize().y) {
+        m_shape.setPosition(playerBounds.left, target->getSize().y - playerBounds.height);
+    }
+}
+
+void Player::updateMousePosition(const sf::RenderWindow *window) {
+    sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
+    if (m_shape.getGlobalBounds().contains(mousePos.x, mousePos.y)) {
+        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
+            m_shape.setFillColor(sf::Color::Green);
+            m_shape.setPosition(
+                    mousePos.x - m_shape.getSize().x / 2,
+                    mousePos.y - m_shape.getSize().y / 2
+            );
+        }
+    }
 }
 
 

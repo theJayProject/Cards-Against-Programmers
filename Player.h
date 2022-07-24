@@ -14,12 +14,9 @@ public:
 
     ~Player();
 
-    void update();
+    void update(const sf::RenderWindow* window);
 
     void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-    sf::RectangleShape &getPlayerShape();
-
 
 private:
     sf::RectangleShape m_shape;
@@ -27,6 +24,8 @@ private:
 
     void initVariables();
     void initShapes();
+    void updateMousePosition(const sf::RenderWindow* window);
+    void updateWindowBoundsCollision(const sf::RenderTarget* target);
     void updateInput();
 };
 

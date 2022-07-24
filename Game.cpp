@@ -11,8 +11,7 @@ Game::~Game() {
 
 void Game::update() {
     this->pollEvents();
-    m_player.update();
-    updateMousePos(m_renderWindow);
+    m_player.update(m_renderWindow);
 }
 
 void Game::render() {
@@ -52,18 +51,5 @@ void Game::pollEvents() {
     }
 }
 
-
-void Game::updateMousePos(sf::RenderWindow *window) {
-    m_mousePosWindow = sf::Mouse::getPosition(*window);
-
-    if (m_player.getPlayerShape().getGlobalBounds().contains(m_mousePosWindow.x, m_mousePosWindow.y)) {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-            m_player.getPlayerShape().setFillColor(sf::Color::Red);
-            m_player.getPlayerShape().setPosition(
-                    m_mousePosWindow.x - (m_player.getPlayerShape().getSize().x / 2),
-                    m_mousePosWindow.y - m_player.getPlayerShape().getSize().y / 2);
-        }
-    }
-}
 
 
