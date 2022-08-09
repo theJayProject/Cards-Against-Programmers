@@ -108,7 +108,7 @@ int main() {
 	nice_eyes->colour();
 	nice_eyes->shape();
 	//Both cases show the derived class result, as there are two virtual functions.
-	//Overridden functions are used to avoid bugs.
+	//" override "  is used to avoid bugs.
 
 	cout << endl << endl << endl << endl;
 	//////////////////////// OBJECT SLICING //////////////////////////////////
